@@ -9,12 +9,19 @@ export default class ThaiIDCardReader {
   private eventEmitter: EventEmitter
   private readTimeout = 1
   private insertCardDelay = 2000
+  public instance: any
+
   constructor() {
     this.eventEmitter = new EventEmitter()
   }
   setReadTimeout(timeout : number) {
     this.readTimeout = timeout
   }
+
+  setInstance(instance : any) {
+    this.instance = instance
+  }
+
   setInsertCardDelay(timeout : number) {
     this.insertCardDelay = timeout
   }
@@ -53,6 +60,7 @@ export default class ThaiIDCardReader {
     console.log("ThaiSmartCardConnector init")
     const pcsc = PCSC()
     pcsc.on("reader", function (reader) {
+      that.setInstance(reader)
       console.log("New reader detected", reader.name)
 
       reader.on("error", function (err) {
@@ -180,6 +188,7 @@ export default class ThaiIDCardReader {
 }
 
 function removeJunk(str : string) {
+  console.log(str)
 let temp = str
 temp = temp.replace(/#/g,' ')
 temp = temp.replace(/\s{2,}/g, ' ');
