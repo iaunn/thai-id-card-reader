@@ -1,6 +1,7 @@
 {
   "devDependencies": {
-    "@types/node": "^18.11.9"
+    "@types/node": "^18.11.9",
+    "typescript": "^5.2.2"
   },
   "name": "@iaunn/thai-id-card-reader",
   "version": "1.0.50",
@@ -27,8 +28,7 @@
     "eventemitter3": "^4.0.7",
     "legacy-encoding": "^3.0.0",
     "moment": "^2.29.4",
-    "pcsclite": "^1.0.1",
-    "thai-id-card-reader": "^1.0.42"
+    "pcsclite": "^1.0.1"
   },
   "description": ""
 }

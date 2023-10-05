@@ -26,6 +26,9 @@ class ThaiIDCardReader {
     setReadTimeout(timeout) {
         this.readTimeout = timeout;
     }
+    setInstance(instance) {
+        this.instance = instance;
+    }
     setInsertCardDelay(timeout) {
         this.insertCardDelay = timeout;
     }
@@ -62,6 +65,7 @@ class ThaiIDCardReader {
         console.log("ThaiSmartCardConnector init");
         const pcsc = (0, pcsclite_1.default)();
         pcsc.on("reader", function (reader) {
+            that.setInstance(reader);
             console.log("New reader detected", reader.name);
             reader.on("error", function (err) {
                 console.log("Error(", this.name, "):", err.message);
@@ -175,6 +179,7 @@ class ThaiIDCardReader {
 }
 exports.default = ThaiIDCardReader;
 function removeJunk(str) {
+    console.log(str);
     let temp = str;
     temp = temp.replace(/#/g, ' ');
     temp = temp.replace(/\s{2,}/g, ' ');
