@@ -3,13 +3,10 @@
     "@types/node": "^18.11.9",
     "typescript": "^5.2.2"
   },
-  "name": "@iaunn/thai-id-card-reader",
-  "version": "1.0.50",
+  "name": "iaunn-card-reader",
+  "version": "1.0.53",
   "main": "build/src/ThaiIDCardReader.js",
   "types": "build/src/ThaiIDCardReader.d.ts",
-  "publishConfig": {
-    "registry": "https://github.com/iaunn/thai-id-card-reader.git"
-  },
   "scripts": {
     "start": "ts-node src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"

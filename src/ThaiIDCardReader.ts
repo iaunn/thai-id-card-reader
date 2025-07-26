@@ -78,11 +78,13 @@ export default class ThaiIDCardReader {
             status.state & this.SCARD_STATE_EMPTY
           ) {
             console.log("card removed") /* card removed */
+            that.eventEmitter.emit('card-event', 'Card Removed')
             reader.disconnect(reader.SCARD_LEAVE_CARD, function (err) {
               if (err) {
                 console.log(err)
               } else {
                 console.log("Disconnected")
+                that.eventEmitter.emit('card-event', 'Card Disconnected')
               }
             })
           } else if (
@@ -90,6 +92,7 @@ export default class ThaiIDCardReader {
             status.state & this.SCARD_STATE_PRESENT
           ) {
             console.log("card inserted") /* card inserted */
+            that.eventEmitter.emit('card-event', 'Card Inserted')
             await delay(that.insertCardDelay)
             reader.connect(
               { share_mode: this.SCARD_SHARE_SHARED },
@@ -110,6 +113,7 @@ export default class ThaiIDCardReader {
                           if (err) {
                             reader.disconnect(()=>{
                               console.log('transmit error : disconnect')
+                              that.eventEmitter.emit('reader-event', 'transmit error : disconnect')
                             })
                              console.log(err)
                           }
@@ -167,6 +171,7 @@ export default class ThaiIDCardReader {
                   that.eventEmitter.emit("READ_COMPLETE", data)
                   reader.disconnect(()=>{
                     console.log('read complete disconnect')
+                    that.eventEmitter.emit('reader-event', 'read complete disconnect')
                   })
                 }
               }
@@ -177,18 +182,19 @@ export default class ThaiIDCardReader {
 
       reader.on("end", function () {
         console.log("Reader", this.name, "removed")
+        that.eventEmitter.emit('reader-event', 'Card Reader Removed')
       })
     })
 
     pcsc.on("error", (err) => {
       console.log("PCSC error", err.message)
       this.eventEmitter.emit("READ_ERROR", err.message)
+      that.eventEmitter.emit('card-event', `READ_ERROR: ${err.message}`)
     })
   }
 }
 
 function removeJunk(str : string) {
-  console.log(str)
 let temp = str
 temp = temp.replace(/#/g,' ')
 temp = temp.replace(/\s{2,}/g, ' ');
